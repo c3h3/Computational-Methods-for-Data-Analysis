@@ -18,7 +18,8 @@ ax.plot_wireframe(X, Y, Z, rstride=5, cstride=5)
 for angle in range(0, 360):
     ax.view_init(30, angle)
     plt.draw()
-    plt.pause(1)
+    plt.pause(0.5)
+    
 
 if __name__ == '__main__':
     pass
