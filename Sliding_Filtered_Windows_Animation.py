@@ -38,7 +38,7 @@ for i in range(len(slides)):
     plt.xlim(-50, 50)
     
     plt.draw()
-    plt.pause(0.2)
+    plt.pause(0.01)
     plt.clf()
 
 
