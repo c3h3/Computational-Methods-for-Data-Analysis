@@ -24,3 +24,7 @@
 *.csv
 
 LectureNotePacketSciCompMeth.pdf
+
+# animation related #
+#####################
+*.mp4
