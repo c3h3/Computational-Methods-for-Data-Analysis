@@ -21,17 +21,24 @@ S = (3*np.sin(2*t) + 0.5*np.tanh(0,5*(t-3)) + 0.28*np.exp(-(t-4)**2) \
 fig, (sig_and_win, sig_conv_win, win_freq) = plt.subplots(ncols=1,nrows=3)
 
 sig_and_win.set_ylim([-1.25, 1.25])
+sig_and_win.set_xlim([min(t), max(t)])
 sig_conv_win.set_ylim([-1.25, 1.25])
+sig_conv_win.set_xlim([min(t), max(t)])
 win_freq.set_xlim([-50, 50])
 win_freq.set_ylim([0, 1.25])
 
 
 sig_line, win_line = sig_and_win.plot([],[],"k",[],[],"m")
 sig_conv_win_line, = sig_conv_win.plot([],[],"k")
+win_freq_line, = win_freq.plot([],[],"k")
+
 
 print "sig_and_win = ",sig_and_win
 print "sig_line, win_line = ",sig_line, win_line
+print "sig_line..get_xydata(), win_line.get_xydata() = ",sig_line.get_xydata(), win_line.get_xydata()
 print "sig_conv_win_line = ",sig_conv_win_line
+print "win_freq_line = ",win_freq_line
+
 
 
 #fig, (sig, win, sig_conv_win, win_freq) = plt.subplots(ncols=1,nrows=4)
@@ -50,27 +57,30 @@ print "sig_conv_win_line = ",sig_conv_win_line
 #win_freq.plot([],[],"k")
 #
 #
-#width = 1
-#slides = np.arange(0,10,0.1)
-#
-#def init():
-#    sig.plot([],[],"k")
-#    win.plot([],[],"m")
-#    sig_conv_win.plot([],[],"k")
-#    win_freq.plot([],[],"k")
-#   
-#def update(n): 
-#    f = np.exp(-width*(t-slides[n])**2)
-#    Sf = np.prod(np.c_[f,S],axis=1)
-#    Sft = np.fft.fft(Sf)
-#    
-#    sig.plot(t,S,"k")
-#    win.plot(t,f,"m")
-#    sig_conv_win.plot(t,Sf,"k")
-#    win_freq.plot(ks,np.abs(np.fft.fftshift(Sft))/max(np.abs(np.fft.fftshift(Sft))),"k")
-#
-#
-#anim = animation.FuncAnimation(fig, update, init_func=init, frames=len(slides), blit=True)
+width = 1
+slides = np.arange(0,10,0.1)
+
+def init():
+    sig_line.set_data([],[])
+    win_line.set_data([],[])
+    sig_conv_win_line.set_data([],[])
+    win_freq_line.set_data([],[])
+    
+   
+def update(n): 
+    f = np.exp(-width*(t-slides[n])**2)
+    Sf = np.prod(np.c_[f,S],axis=1)
+    Sft = np.fft.fft(Sf)
+    
+    sig_line.set_data([t],[S])
+    win_line.set_data([t],[f])
+    sig_conv_win_line.set_data([t],[Sf])
+    win_freq_line.set_data([ks],[np.abs(np.fft.fftshift(Sft))/max(np.abs(np.fft.fftshift(Sft)))])
+    
+    
+
+
+anim = animation.FuncAnimation(fig, update, init_func=init, frames=len(slides), blit=True)
 #
 ## # anim.save can be called in a  few different ways, some which might or might not work
 ## # on different platforms and with different versions of matplotlib.
@@ -78,8 +88,12 @@ print "sig_conv_win_line = ",sig_conv_win_line
 ## #anim.save('animation.mp4', fps=20, extra_args=['-vcodec', 'libx264'])
 #
 ##anim.save('animation.mp4', fps=20, writer="ffmpeg", codec="libx264")
-#anim.save('animation.mp4', fps=20, extra_args=['-vcodec', 'libx264'], writer=animation.FFMpegWriter())
-#plt.close(fig)
+
+anim.save('animation.mp4', fps=20, extra_args=['-vcodec', 'libx264'], writer=animation.FFMpegWriter())
+plt.close(fig)
+
+
+
 #
 ##width = 1
 ##slides = np.arange(0,10,0.1)
