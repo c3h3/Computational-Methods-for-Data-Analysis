@@ -72,6 +72,7 @@ anim = animation.FuncAnimation(fig, update, init_func=init, frames=len(slides), 
 ##anim.save('animation.mp4', fps=20, writer="ffmpeg", codec="libx264")
 
 anim.save('sliding_window_animation.mp4', fps=20, extra_args=['-vcodec', 'libx264'], writer=animation.FFMpegWriter())
+anim.save('sliding_window_animation.gif', writer='imagemagick', fps=20);
 plt.close(fig)
 
 
